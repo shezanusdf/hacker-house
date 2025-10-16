@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://c7qq0ijlsj13f"]
+
+[ext_resource type="Texture2D" uid="uid://dugj8c3qle8lr" path="res://assets/pitch-background.png" id="2_4wyf3"]
+[ext_resource type="PackedScene" uid="uid://cru6ti2s3obj7" path="res://scenes/player.tscn" id="2_rwgxs"]
+[ext_resource type="Script" uid="uid://jn23atct16t0" path="res://player.gd" id="3_4wyf3"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4wyf3"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_k0juu"]
+a = Vector2(1, -158)
+b = Vector2(863, -158)
+
+[node name="World" type="Node2D"]
+
+[node name="background" type="Node2D" parent="."]
+
+[node name="grass" type="Sprite2D" parent="background"]
+position = Vector2(-3, -16)
+texture = ExtResource("2_4wyf3")
+centered = false
+
+[node name="Player" parent="." instance=ExtResource("2_rwgxs")]
+position = Vector2(137, 75)
+script = ExtResource("3_4wyf3")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_4wyf3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-8, 143)
+shape = SubResource("SegmentShape2D_k0juu")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-6, 502)
+shape = SubResource("SegmentShape2D_k0juu")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-161, -16)
+rotation = 1.5707964
+shape = SubResource("SegmentShape2D_k0juu")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(692, -17)
+rotation = 1.5707964
+shape = SubResource("SegmentShape2D_k0juu")

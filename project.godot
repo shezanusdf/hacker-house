@@ -11,18 +11,21 @@ config_version=5
 [application]
 
 config/name="hackerhouse"
+run/main_scene="uid://c7qq0ijlsj13f"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=280
+window/size/viewport_height=180
+window/size/window_width_override=1400
+window/size/window_height_override=900
 window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
+enabled=PackedStringArray("res://addons/ai_context_generator/plugin.cfg", "res://addons/godot_super-wakatime/plugin.cfg")
 
 [input]
 

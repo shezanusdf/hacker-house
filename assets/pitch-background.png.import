@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://by8f0ic6opuut"
-path="res://.godot/imported/Bob_16x16.png-cce1431cb6c3dbc937f78c20b5c50fe1.ctex"
+uid="uid://dugj8c3qle8lr"
+path="res://.godot/imported/pitch-background.png-262ed74828322d6504bd296fe5ab2f81.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/Bob_16x16.png"
-dest_files=["res://.godot/imported/Bob_16x16.png-cce1431cb6c3dbc937f78c20b5c50fe1.ctex"]
+source_file="res://assets/pitch-background.png"
+dest_files=["res://.godot/imported/pitch-background.png-262ed74828322d6504bd296fe5ab2f81.ctex"]
 
 [params]
 

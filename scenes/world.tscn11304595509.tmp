@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7qq0ijlsj13f"]
+
+[ext_resource type="Texture2D" uid="uid://dugj8c3qle8lr" path="res://assets/pitch-background.png" id="2_4wyf3"]
+[ext_resource type="PackedScene" uid="uid://cru6ti2s3obj7" path="res://scenes/player.tscn" id="2_rwgxs"]
+[ext_resource type="Script" uid="uid://jn23atct16t0" path="res://player.gd" id="3_4wyf3"]
+
+[node name="World" type="Node2D"]
+
+[node name="background" type="Node2D" parent="."]
+
+[node name="grass" type="Sprite2D" parent="background"]
+position = Vector2(-3, -16)
+texture = ExtResource("2_4wyf3")
+centered = false
+
+[node name="Player" parent="." instance=ExtResource("2_rwgxs")]
+position = Vector2(137, 75)
+script = ExtResource("3_4wyf3")
