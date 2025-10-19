@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btptp8ib4wj8a"
-path="res://.godot/imported/versace-tiles-purple.png-3a9bfbb860c1e2fc6afe04b07ab59359.ctex"
+uid="uid://c2dchuu2b6bw2"
+path="res://.godot/imported/room.jpg-15f62189c1918579313d8780555e993b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/versace-tiles-purple.png"
-dest_files=["res://.godot/imported/versace-tiles-purple.png-3a9bfbb860c1e2fc6afe04b07ab59359.ctex"]
+source_file="res://assets/room.jpg"
+dest_files=["res://.godot/imported/room.jpg-15f62189c1918579313d8780555e993b.ctex"]
 
 [params]
 
