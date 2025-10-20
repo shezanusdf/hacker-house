@@ -43,17 +43,13 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func _input(event):
-	if event.is_action_pressed("interact"):  # E key
+	if event.is_action_pressed("interact"):  # E/space key
 		if sitting:
 			stand_up()
 		else:
 			try_sit()
 
 func try_sit():
-	if furni == null:
-		print("Error: furni TileMap not found!")
-		return
-	
 	# Get player's tile position
 	var local_pos = furni.to_local(global_position)
 	var player_cell = furni.local_to_map(local_pos)
@@ -85,25 +81,12 @@ func try_sit():
 func sit_down(cell: Vector2i):
 	sitting = true
 	
-	# Get the chair's position in the tilemap's local space
-	var chair_local_pos = furni.map_to_local(cell)
+	# Snap player to chair center
+	var chair_world_pos = furni.to_global(furni.map_to_local(cell))
+	global_position = chair_world_pos + Vector2(0,8.0)
+	$AnimatedSprite2D.play("sit")
 	
-	# Set player position in GLOBAL space, but use the parent's transform
-	# to convert from the tilemap's local space
-	position = furni.position + chair_local_pos
-	
-	print("Chair tile: ", cell)
-	print("Chair local pos in tilemap: ", chair_local_pos)
-	print("Furni TileMap position: ", furni.position)
-	print("Player position set to: ", position)
-	print("Player global_position: ", global_position)
-	
-	# Play sitting animation
-	if $AnimatedSprite2D.sprite_frames.has_animation("sit"):
-		$AnimatedSprite2D.play("sit")
-	else:
-		print("Warning: 'sit' animation not found!")
-		$AnimatedSprite2D.play("idle")
+	print("Sitting on chair at tile: ", cell)
 
 func stand_up():
 	sitting = false
