@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cru6ti2s3obj7"]
+[gd_scene load_steps=22 format=3 uid="uid://cru6ti2s3obj7"]
 
 [ext_resource type="Texture2D" uid="uid://by8f0ic6opuut" path="res://assets/characters/Bob_16x16.png" id="1_3vyb7"]
 
@@ -143,6 +143,11 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3vyb7"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="Player" type="CharacterBody2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -158,3 +163,6 @@ autoplay = "idle"
 frame_progress = 0.59968626
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_3vyb7")

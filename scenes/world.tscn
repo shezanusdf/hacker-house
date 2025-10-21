@@ -1,10 +1,10 @@
 [gd_scene load_steps=20 format=3 uid="uid://c7qq0ijlsj13f"]
 
 [ext_resource type="Texture2D" uid="uid://bsthmxton1odv" path="res://assets/Room_Builder_free_16x16.png" id="1_4wyf3"]
+[ext_resource type="Script" uid="uid://ds16yqpmxkusl" path="res://scenes/SceneManager.gd" id="1_w7kh3"]
 [ext_resource type="Texture2D" uid="uid://daomfp14qrye" path="res://assets/Interiors_free_16x16.png" id="2_k0juu"]
 [ext_resource type="PackedScene" uid="uid://cru6ti2s3obj7" path="res://scenes/player.tscn" id="2_rwgxs"]
 [ext_resource type="Texture2D" uid="uid://dw3d2tqdn2fj" path="res://assets/Screenshot 2025-10-17 171433.png" id="3_4mrxx"]
-[ext_resource type="Script" uid="uid://jn23atct16t0" path="res://player.gd" id="3_4wyf3"]
 [ext_resource type="Texture2D" uid="uid://3cnyc16xwy70" path="res://assets/wood flooring/Birch_Planks_basecolor.png" id="3_7r4gi"]
 [ext_resource type="Texture2D" uid="uid://d0ko24ijkuswb" path="res://assets/interiors.png" id="3_71j4m"]
 [ext_resource type="Texture2D" uid="uid://ccldagepdwy4t" path="res://assets/pixel_tileset.svg" id="3_qfnet"]
@@ -20811,6 +20811,8 @@ sources/1 = SubResource("TileSetAtlasSource_qfnet")
 sources/2 = SubResource("TileSetAtlasSource_7r4gi")
 
 [node name="World" type="Node2D"]
+script = ExtResource("1_w7kh3")
+PLayerScene = ExtResource("2_rwgxs")
 
 [node name="flooring_walls" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_71j4m")
@@ -20823,6 +20825,10 @@ tile_set = SubResource("TileSet_4wyf3")
 format = 2
 layer_0/tile_data = PackedInt32Array(-196595, 196608, 29, -131059, 196608, 29, -131060, 196608, 29, -196596, 196608, 29, -262132, 196608, 28, -262131, 196608, 28, -131061, 196608, 29, -262133, 196608, 28, -196597, 196608, 29, -131053, 196608, 29, -131052, 196608, 29, -196588, 196608, 29, -196589, 196608, 29, -262125, 196608, 28, -262124, 196608, 28, -131058, 786432, 45, -65522, 786432, 46, -131054, 786432, 45, -65518, 786432, 46, -131062, 786432, 45, -65526, 786432, 46, -65528, 327680, 60, -65527, 393216, 60, -131064, 327680, 58, -131063, 393216, 58, -262136, 655360, 47, -262135, 720896, 47, 262158, 655360, 33, 262157, 524288, 33, 327693, 524288, 34, 327694, 655360, 34, 393230, 655360, 33, 458766, 655360, 34, 393229, 524288, 33, 458765, 524288, 34)
 
-[node name="Player" parent="." instance=ExtResource("2_rwgxs")]
-position = Vector2(137, 75)
-script = ExtResource("3_4wyf3")
+[node name="SpawnLocation" type="Node2D" parent="."]
+
+[node name="0" type="Node2D" parent="SpawnLocation" groups=["PlayerSpawnPoint"]]
+position = Vector2(196, 7)
+
+[node name="1" type="Node2D" parent="SpawnLocation" groups=["PlayerSpawnPoint"]]
+position = Vector2(308, 8)

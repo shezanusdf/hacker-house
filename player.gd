@@ -5,42 +5,48 @@ extends CharacterBody2D
 var character_direction: Vector2 = Vector2.ZERO
 var sitting: bool = false
 var last_facing_right: bool = false  # Remember which way we were facing
+var sprite_flipped: bool = false
 
 # Automatically get the furniture TileMap named "furni" in the same scene
 @onready var furni: TileMap = get_parent().get_node("furni")
 
-func _physics_process(_delta: float) -> void:
-	if sitting:
-		velocity = Vector2.ZERO
-		return  # no movement while sitting
-	
-	# Get input
-	character_direction.x = Input.get_axis("move_left", "move_right")
-	character_direction.y = Input.get_axis("move_up", "move_down")
-	
-	# Normalize so diagonal speed stays consistent
-	if character_direction.length() > 0:
-		character_direction = character_direction.normalized()
-	
-	# Flip sprite based on direction
-	if character_direction.x > 0:
-		$AnimatedSprite2D.flip_h = false
-		last_facing_right = false
-	elif character_direction.x < 0:
-		$AnimatedSprite2D.flip_h = true
-		last_facing_right = true
-	
-	# Move and animate
-	if character_direction != Vector2.ZERO:
-		velocity = character_direction * speed
-		if $AnimatedSprite2D.animation != "walking":
-			$AnimatedSprite2D.play("walking")
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, speed)
-		if $AnimatedSprite2D.animation != "idle":
-			$AnimatedSprite2D.play("idle")
-	
-	move_and_slide()
+func _ready():
+	pass
+func _physics_process(delta):
+	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():	
+		if sitting:
+			velocity = Vector2.ZERO
+			return  # no movement while sitting
+		
+		# Get input
+		character_direction.x = Input.get_axis("move_left", "move_right")
+		character_direction.y = Input.get_axis("move_up", "move_down")
+		
+		# Normalize so diagonal speed stays consistent
+		if character_direction.length() > 0:
+			character_direction = character_direction.normalized()
+		
+		# Flip sprite based on direction
+		if character_direction.x > 0:
+			$AnimatedSprite2D.flip_h = false
+			last_facing_right = false
+		elif character_direction.x < 0:
+			$AnimatedSprite2D.flip_h = true
+			last_facing_right = true
+		
+		# Move and animate
+		if character_direction != Vector2.ZERO:
+			velocity = character_direction * speed
+			if $AnimatedSprite2D.animation != "walking":
+				$AnimatedSprite2D.play("walking")
+		else:
+			velocity = velocity.move_toward(Vector2.ZERO, speed)
+			if $AnimatedSprite2D.animation != "idle":
+				$AnimatedSprite2D.play("idle")
+		
+		move_and_slide()
+	if $MultiplayerSynchronizer.get_multiplayer_authority() != multiplayer.get_unique_id():
+		$AnimatedSprite2D.flip_h = sprite_flipped
 
 func _input(event):
 	if event.is_action_pressed("interact"):  # E/space key

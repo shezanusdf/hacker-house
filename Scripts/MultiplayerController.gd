@@ -30,7 +30,7 @@ func connected_to_server():
 func connection_failed():
 	print("connection failed!")
 	
-@rpc("any_peer","call_local")
+@rpc("any_peer")
 func SendPlayerInformation(name, id) :
 	if !GameManager.Players.has(id) :
 		GameManager.Players[id] = {
@@ -41,12 +41,13 @@ func SendPlayerInformation(name, id) :
 		for i in GameManager.Players:
 			SendPlayerInformation.rpc(GameManager.Players[i].name, i)
 
-@rpc("any_peer","call_local")
-	
+@rpc("any_peer", "call_local")
 func StartGame():
+	await get_tree().create_timer(0.2).timeout  # wait a bit so GameManager.Players syncs
 	var scene = load("res://scenes/world.tscn").instantiate()
 	get_tree().root.add_child(scene)
 	self.hide()
+
 
 func _on_host_button_down() -> void:
 	peer = ENetMultiplayerPeer.new()
