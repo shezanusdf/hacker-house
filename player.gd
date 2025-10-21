@@ -96,5 +96,3 @@ func stand_up():
 	
 	# Play idle animation
 	$AnimatedSprite2D.play("idle")
-	
-	print("Stood up from chair")

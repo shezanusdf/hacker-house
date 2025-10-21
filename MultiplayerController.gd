@@ -15,19 +15,38 @@ func _process(_delta: float) -> void:
 	
 #this gets called on the server and clients
 func peer_connected(id):
-	print("Player Connected" + id)
+	print("Player Connected" + str(id))
 
 #this gets called on the server and clients
 func peer_disconnected(id):
-	print("Player Disconnected" + id)
+	print("Player Disconnected" + str(id))
 
 #this gets fired only from clients
 func connected_to_server():
 	print("Connected to Server!")
+	SendPlayerInformation.rpc_id(1, $LineEdit.text, multiplayer.get_unique_id())
 
 #this gets fired only from clients
 func connection_failed():
 	print("connection failed!")
+	
+@rpc("any_peer","call_local")
+func SendPlayerInformation(name, id) :
+	if !GameManager.Players.has(id) :
+		GameManager.Players[id] = {
+			"name" : name,
+			"id" : id
+		}
+	if multiplayer.is_server():
+		for i in GameManager.Players:
+			SendPlayerInformation.rpc(GameManager.Players[i].name, i)
+
+@rpc("any_peer","call_local")
+	
+func StartGame():
+	var scene = load("res://scenes/world.tscn").instantiate()
+	get_tree().root.add_child(scene)
+	self.hide()
 
 func _on_host_button_down() -> void:
 	peer = ENetMultiplayerPeer.new()
@@ -39,6 +58,7 @@ func _on_host_button_down() -> void:
 	
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for Players...")
+	SendPlayerInformation($LineEdit.text , multiplayer.get_unique_id())
 
 
 func _on_join_button_down() -> void:
@@ -50,4 +70,5 @@ func _on_join_button_down() -> void:
 
 
 func _on_start_game_button_down() -> void:
+	StartGame.rpc()
 	pass # Replace with function body.
