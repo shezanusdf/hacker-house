@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b4pm2ikxu1e8" path="res://MultiplayerController.gd" id="1_0fbet"]
 
-[node name="Control" type="Control"]
+[node name="MultiplayerScene" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

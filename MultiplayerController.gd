@@ -2,6 +2,7 @@ extends Control
 
 @export var adress = "127.0.0.1"
 @export var port = 7860
+var peer 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(peer_connected)
 	multiplayer.peer_disconnected.connect(peer_disconnected)
@@ -29,7 +30,7 @@ func connection_failed():
 	print("connection failed!")
 
 func _on_host_button_down() -> void:
-	var peer = ENetMultiplayerPeer.new()
+	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, 3)
 	if error != OK:
 		print("cannot host: " + error)
@@ -41,6 +42,10 @@ func _on_host_button_down() -> void:
 
 
 func _on_join_button_down() -> void:
+	peer = ENetMultiplayerPeer.new()
+	peer.create_client(adress, port)
+	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
+	multiplayer.set_multiplayer_peer(peer)
 	pass # Replace with function body.
 
 
