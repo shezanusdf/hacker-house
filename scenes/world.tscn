@@ -20812,7 +20812,7 @@ sources/2 = SubResource("TileSetAtlasSource_7r4gi")
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_w7kh3")
-PLayerScene = ExtResource("2_rwgxs")
+PlayerScene = ExtResource("2_rwgxs")
 
 [node name="flooring_walls" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_71j4m")
