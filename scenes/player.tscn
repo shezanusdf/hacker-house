@@ -160,9 +160,8 @@ shape = SubResource("CapsuleShape2D_3vyb7")
 unique_name_in_owner = true
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_tuyoq")
-animation = &"walking"
+animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.59968626
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

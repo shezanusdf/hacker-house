@@ -7,6 +7,7 @@ var sitting: bool = false
 var last_facing_right: bool = false  # Remember which way we were facing
 var anim_state: String = "idle"
 var is_sitting: bool = false
+var syncPos = Vector2(0,0)
 
 # Automatically get the furniture TileMap named "furni" in the same scene
 @onready var furni: TileMap = get_parent().get_node("furni")
@@ -57,6 +58,8 @@ func _physics_process(delta):
 			velocity = velocity.move_toward(Vector2.ZERO, speed)
 		
 		move_and_slide()
+	else:
+		global_position = global_position.lerp(syncPos, 0.5)
 
 
 func _input(event):
