@@ -7,7 +7,7 @@ var sitting: bool = false
 var last_facing_right: bool = false  # Remember which way we were facing
 var anim_state: String = "idle"
 var is_sitting: bool = false
-var syncPos = Vector2(0,0)
+
 
 # Automatically get the furniture TileMap named "furni" in the same scene
 @onready var furni: TileMap = get_parent().get_node("furni")
@@ -58,8 +58,6 @@ func _physics_process(delta):
 			velocity = velocity.move_toward(Vector2.ZERO, speed)
 		
 		move_and_slide()
-	else:
-		global_position = global_position.lerp(syncPos, 0.5)
 
 
 func _input(event):
@@ -88,6 +86,9 @@ func try_sit():
 	for cell in cells_to_check:
 		var tile_data = furni.get_cell_tile_data(0, cell)
 		if tile_data != null and tile_data.get_custom_data("interaction") == "chair":
+			if GameManager.OccupiedChairs.has(cell):
+				print("Chair already occupied by player:", GameManager.OccupiedChairs[cell])
+				return
 			sit_down(cell)
 			return
 	
