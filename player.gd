@@ -12,52 +12,45 @@ var is_sitting: bool = false
 # Automatically get the furniture TileMap named "furni" in the same scene
 @onready var furni: TileMap = get_parent().get_node("furni")
 
-func _ready():
-	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
-	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
-		$Camera2D.make_current()
-
 func _physics_process(delta):
-	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
-		if sitting:
-			velocity = Vector2.ZERO
-			return  # no movement while sitting
+	if sitting:
+		velocity = Vector2.ZERO
+		return  # no movement while sitting
 
-		# Get input
-		character_direction.x = Input.get_axis("move_left", "move_right")
-		character_direction.y = Input.get_axis("move_up", "move_down")
-		
-		# Normalize so diagonal speed stays consistent
-		if character_direction.length() > 0:
-			character_direction = character_direction.normalized()
-		
-		# Flip sprite based on direction
-		if character_direction.x > 0:
-			$AnimatedSprite2D.flip_h = false
-			last_facing_right = false
-		elif character_direction.x < 0:
-			$AnimatedSprite2D.flip_h = true
-			last_facing_right = true
-		
-		# Move and animate
-		var new_anim = "idle"
-		if sitting:
-			new_anim = "sit"
-		elif character_direction != Vector2.ZERO:
-			new_anim = "walking"
-		
-		if new_anim != anim_state or sitting != is_sitting:
-			anim_state = new_anim
-			is_sitting = sitting
-			$AnimatedSprite2D.play(anim_state)
-			update_animation.rpc(anim_state, is_sitting, last_facing_right)
-		
-		if character_direction != Vector2.ZERO:
-			velocity = character_direction * speed
-		else:
-			velocity = velocity.move_toward(Vector2.ZERO, speed)
-		
-		move_and_slide()
+	# Get input
+	character_direction.x = Input.get_axis("move_left", "move_right")
+	character_direction.y = Input.get_axis("move_up", "move_down")
+	
+	# Normalize so diagonal speed stays consistent
+	if character_direction.length() > 0:
+		character_direction = character_direction.normalized()
+	
+	# Flip sprite based on direction
+	if character_direction.x > 0:
+		$AnimatedSprite2D.flip_h = false
+		last_facing_right = false
+	elif character_direction.x < 0:
+		$AnimatedSprite2D.flip_h = true
+		last_facing_right = true
+	
+	# Move and animate
+	var new_anim = "idle"
+	if sitting:
+		new_anim = "sit"
+	elif character_direction != Vector2.ZERO:
+		new_anim = "walking"
+	
+	if new_anim != anim_state or sitting != is_sitting:
+		anim_state = new_anim
+		is_sitting = sitting
+		$AnimatedSprite2D.play(anim_state)
+	
+	if character_direction != Vector2.ZERO:
+		velocity = character_direction * speed
+	else:
+		velocity = velocity.move_toward(Vector2.ZERO, speed)
+	
+	move_and_slide()
 
 
 func _input(event):
@@ -86,9 +79,6 @@ func try_sit():
 	for cell in cells_to_check:
 		var tile_data = furni.get_cell_tile_data(0, cell)
 		if tile_data != null and tile_data.get_custom_data("interaction") == "chair":
-			if GameManager.OccupiedChairs.has(cell):
-				print("Chair already occupied by player:", GameManager.OccupiedChairs[cell])
-				return
 			sit_down(cell)
 			return
 	
@@ -99,17 +89,14 @@ func sit_down(cell: Vector2i):
 	var chair_world_pos = furni.to_global(furni.map_to_local(cell))
 	global_position = chair_world_pos + Vector2(0,8.0)
 	$AnimatedSprite2D.play("sit")
-	update_animation.rpc("sit", true, last_facing_right)
 	print("Sitting on chair at tile: ", cell)
 
 func stand_up():
 	sitting = false
 	$AnimatedSprite2D.flip_h = last_facing_right
 	$AnimatedSprite2D.play("idle")
-	update_animation.rpc("idle", false, last_facing_right)
 
 
-@rpc("any_peer")
 func update_animation(new_anim: String, sitting_state: bool, facing_right: bool):
 	anim_state = new_anim
 	is_sitting = sitting_state
